@@ -1,9 +1,67 @@
-### Bot file goes here. You can either upload your own or simply replace this file.
-### If you upload your own file or rename the .py, make sure to change the directory location in our Procfile.
+import discord
+from discord.ext import commands
+import random
+import math
+import os
+import asyncio
 
-# For Heroku, make sure your .py includes the following.
-import os # import the OS details, including our hidden bot token
-token = os.environ.get('DISCORD_BOT_TOKEN') # fetch the token from Heroku's "OS" running the bot. make sure the name matches the one you've used on Heroku
+hostChannelID = os.environ.get('HOST_CHANNEL')
+kchilID = os.environ.get('CREATOR_ID')
 
-# Include this at the end of your code. Instead of bot, you may have "discord.Client()" "commands.Bot()" etc, or whatever you have defined these.
-bot.run(token) # make sure your token variable matches the token defined above
+token = os.environ.get('DISCORD_BOT_TOKEN')
+# invite link
+# https://discord.com/api/oauth2/authorize?client_id=808868306676350976&permissions=68608&scope=bot
+
+client = discord.Client()
+
+bot = commands.Bot(command_prefix=">>")
+
+@bot.event
+async def on_ready():
+    hostChannel = bot.get_channel(hostChannelID)
+    kchilPing = "<@" + str(kchilID) + ">"
+    await hostChannel.send(kchilPing + " I am online.")
+
+@bot.command(aliases=["r"])
+async def roll(ctx, numDice: int):
+    resultTotal = 0
+    resultText = ""
+    successTotal = 0
+    tensRolled = 0
+    tenPairs = 0
+    valueCritWin = 0
+    totalSuccess = 0
+    totalCritText = ""
+
+    for r in range(numDice):
+        tempResult = random.randint(1, 10)
+
+        if tempResult >= 6:
+            successTotal += 1
+
+        if tempResult == 10:
+            tensRolled += 1
+
+        if r == 0:
+            resultText = resultText + str(tempResult)
+        elif r == 11:
+            resultText = resultText + ",`\n`"
+            resultText = resultText + str(tempResult)
+        else:
+            resultText = resultText + ", " + str(tempResult)
+
+    resultText = "\n`Results: " + resultText + "`"
+
+    tenPairs = math.floor(tensRolled / 2)
+    valueCritWin = tenPairs * 2
+
+    totalSuccess = successTotal + valueCritWin
+
+    if totalSuccess <= 1:
+        totalCritText = ""
+    else:
+        totalCritText = " (" + str(successTotal) + " + " + str(valueCritWin) + ")"
+
+    await ctx.send("You rolled " + str(numDice) + "d10 for **" + str(totalSuccess) + "** successes." + totalCritText + resultText)
+
+bot.run(token)
