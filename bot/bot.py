@@ -21,6 +21,13 @@ async def on_ready():
     hostChannel = bot.get_channel(hostChannelID)
     kchilPing = "<@" + str(kchilID) + ">"
     await hostChannel.send(kchilPing + " I am online.")
+    
+@bot.command()
+async def text(ctx):
+    await ctx.send(str(hostChannelID))
+    await ctx.send(type(hostChannelID))
+    await ctx.send(str(kchilID))
+    await ctx.send(type(kchildID))
 
 @bot.command(aliases=["r"])
 async def roll(ctx, numDice: int):
