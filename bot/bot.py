@@ -5,8 +5,10 @@ import math
 import os
 import asyncio
 
+## used to notify me when bot goes online (such as for testing purposes) > line 21
 hostChannelID = os.environ.get('HOST_CHANNEL')
 kchilID = os.environ.get('CREATOR_ID')
+
 token = os.environ.get('DISCORD_BOT_TOKEN')
 
 # invite link
