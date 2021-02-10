@@ -18,7 +18,7 @@ bot = commands.Bot(command_prefix=">>")
 
 @bot.event
 async def on_ready():
-    hostChannel = bot.get_channel(hostChannelID)
+    hostChannel = bot.get_channel(int(hostChannelID))
     kchilPing = "<@" + str(kchilID) + ">"
     await hostChannel.send(kchilPing + " I am online.")
     
