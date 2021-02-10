@@ -7,8 +7,8 @@ import asyncio
 
 hostChannelID = os.environ.get('HOST_CHANNEL')
 kchilID = os.environ.get('CREATOR_ID')
-
 token = os.environ.get('DISCORD_BOT_TOKEN')
+
 # invite link
 # https://discord.com/api/oauth2/authorize?client_id=808868306676350976&permissions=68608&scope=bot
 
@@ -21,13 +21,6 @@ async def on_ready():
     hostChannel = bot.get_channel(int(hostChannelID))
     kchilPing = "<@" + str(kchilID) + ">"
     await hostChannel.send(kchilPing + " I am online.")
-    
-@bot.command()
-async def text(ctx):
-    await ctx.send(str(hostChannelID))
-    await ctx.send(type(hostChannelID))
-    await ctx.send(str(kchilID))
-    await ctx.send(type(kchildID))
 
 @bot.command(aliases=["r"])
 async def roll(ctx, numDice: int):
