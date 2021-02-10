@@ -6,6 +6,7 @@ import os
 import asyncio
 
 hostChannelID = os.environ.get('HOST_CHANNEL')
+hostGuildID = os.environ.get('HOST_GUILD')
 kchilID = os.environ.get('CREATOR_ID')
 
 token = os.environ.get('DISCORD_BOT_TOKEN')
